@@ -14,16 +14,36 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 20)
+    private String title;
     @Column(nullable = false)
     private String description;
     private boolean done;
     private LocalDate createdAt;
+    private LocalDate updatedAt;
 
-    private Task() {}
+    public Task() {}
 
-    public Task(String description, boolean done, LocalDate createdAt) {
+    public Task(String description, boolean done, LocalDate createdAt, LocalDate updatedAt) {
         this.description = description;
         this.done = done;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
