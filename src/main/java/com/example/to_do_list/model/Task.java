@@ -24,11 +24,20 @@ public class Task {
 
     public Task() {}
 
-    public Task(String description, boolean done, LocalDate createdAt, LocalDate updatedAt) {
+    public Task(String title, String description, LocalDate createdAt, LocalDate updatedAt) {
+        this.title = title;
         this.description = description;
-        this.done = done;
+        this.done = false;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setTitle(String title) {

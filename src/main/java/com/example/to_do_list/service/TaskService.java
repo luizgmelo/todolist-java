@@ -16,9 +16,9 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Task createTask(TaskDTO data) {
+    public Task createTask(Task data) {
         LocalDate currentDate = getCurrentDate();
-        Task newTask = new Task(data.description(), data.done(), currentDate, currentDate);
+        Task newTask = new Task(data.getTitle(), data.getDescription(), currentDate, currentDate);
         taskRepository.save(newTask);
         return newTask;
     }
@@ -41,7 +41,6 @@ public class TaskService {
             Task taskOld = taskOldOpt.get();
             taskOld.setTitle(data.title());
             taskOld.setDescription(data.description());
-            taskOld.setDone(data.done());
             taskOld.setUpdatedAt(getCurrentDate());
             taskRepository.save(taskOld);
             return taskOld;
