@@ -31,19 +31,22 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task data) {
+    public ResponseEntity<Task> createTask(@RequestBody TaskDTO data) {
         Task task = taskService.createTask(data);
         return ResponseEntity.ok(task);
     }
 
-    @PutMapping
-    public ResponseEntity<Task> updateTask(TaskDTO data, Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@RequestBody TaskDTO data, @PathVariable Long id) {
         Task updatedTask = taskService.updateTask(data, id);
+        if (updatedTask == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updatedTask);
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteTask(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
