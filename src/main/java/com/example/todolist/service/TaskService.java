@@ -21,10 +21,7 @@ public class TaskService {
 
     public Task get(Long id) {
         Optional<Task> opTask = this.taskRepository.findById(id);
-        if (opTask.isEmpty()) {
-            return null;
-        }
-        return opTask.get();
+        return opTask.orElse(null);
     }
 
     public Task create(TaskDTO data) {
