@@ -25,7 +25,7 @@ public class TaskService {
     }
 
     public Task create(TaskDTO data) {
-        Task newTask = new Task(data.title(), data.description());
+        Task newTask = new Task(data.title(), data.description(), data.done(), data.priority());
         return this.taskRepository.save(newTask);
     }
 

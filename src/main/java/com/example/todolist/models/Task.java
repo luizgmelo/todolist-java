@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_task")
@@ -26,10 +25,15 @@ public class Task implements Serializable {
     private String description;
 
     @Column(nullable = false)
-    private boolean done;
+    private Boolean done;
 
-    public Task(String title, String description) {
+    @Column(nullable = false)
+    private String priority;
+
+    public Task(String title, String description, Boolean done, String priority) {
         this.title = title;
         this.description = description;
+        this.done = done;
+        this.priority = priority;
     }
 }
