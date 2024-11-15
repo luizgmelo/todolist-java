@@ -28,9 +28,9 @@ public class Task implements Serializable {
     private Boolean done;
 
     @Column(nullable = false)
-    private String priority;
+    private Integer priority;
 
-    public Task(String title, String description, Boolean done, String priority) {
+    public Task(String title, String description, Boolean done, Integer priority) {
         this.title = title;
         this.description = description;
         this.done = done;
