@@ -14,8 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.todolist.constants.Constants.TASK;
-import static com.example.todolist.constants.Constants.TASK_DTO;
+import static com.example.todolist.constants.Constants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -88,14 +87,17 @@ class TaskServiceTest {
     @Test
     @DisplayName("Should throw exception when create a new task with invalid data")
     void createTask_WithInvalidData_ReturnsTask() {
-
     }
 
     @Test
+    @DisplayName("Should update a task")
     void update() {
-    }
+        when(taskRepository.findById(any())).thenReturn(Optional.of(TASK));
+        when(taskRepository.save(any())).thenReturn(TASK);
 
-    @Test
-    void delete() {
+        Task sut = taskService.update(TASK.getId(), TASK_DTO);
+
+        assertThat(sut).isNotNull();
+        assertThat(sut).isEqualTo(TASK);
     }
 }
