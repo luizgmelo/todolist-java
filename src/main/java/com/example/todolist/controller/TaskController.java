@@ -1,14 +1,18 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.dtos.TaskDTO;
+import com.example.todolist.exception.ForbiddenOperationException;
 import com.example.todolist.models.Task;
+import com.example.todolist.models.User;
 import com.example.todolist.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//<TODO> Responses should be DTOS
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -37,12 +41,24 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody TaskDTO data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.taskService.create(data));
+        User creator = getAuthenticatedUser();
+
+        if (creator == null) {
+            throw new ForbiddenOperationException();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.taskService.create(data, creator));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody TaskDTO data) {
-        Task updatedTask = this.taskService.update(id, data);
+        User creator = getAuthenticatedUser();
+
+        if (creator == null) {
+            throw new ForbiddenOperationException();
+        }
+
+        Task updatedTask = this.taskService.update(id, data, creator);
 
         if (updatedTask == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -55,5 +71,15 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         this.taskService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        } else {
+            return null;
+        }
     }
 }

@@ -77,7 +77,7 @@ class TaskServiceTest {
     void createTask_WithValidData_ReturnsTask() {
         when(taskRepository.save(TASK)).thenReturn(TASK);
 
-        Task sut = taskService.create(TASK_DTO);
+        Task sut = taskService.create(TASK_DTO, TASK.getCreator());
 
         assertThat(sut).isNotNull();
         assertThat(sut).isEqualTo(TASK);
@@ -95,7 +95,7 @@ class TaskServiceTest {
         when(taskRepository.findById(any())).thenReturn(Optional.of(TASK));
         when(taskRepository.save(any())).thenReturn(TASK);
 
-        Task sut = taskService.update(TASK.getId(), TASK_DTO);
+        Task sut = taskService.update(TASK.getId(), TASK_DTO, TASK.getCreator());
 
         assertThat(sut).isNotNull();
         assertThat(sut).isEqualTo(TASK);

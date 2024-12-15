@@ -1,5 +1,6 @@
 package com.example.todolist.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,10 +31,16 @@ public class Task implements Serializable {
     @Column(nullable = false)
     private Integer priority;
 
-    public Task(String title, String description, Boolean done, Integer priority) {
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    @JsonIgnore
+    private User creator;
+
+    public Task(String title, String description, Boolean done, Integer priority, User creator) {
         this.title = title;
         this.description = description;
         this.done = done;
         this.priority = priority;
+        this.creator = creator;
     }
 }
